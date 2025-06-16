@@ -173,25 +173,40 @@ To enable this scenario using Kubernetes:
 1. Deploy the ecommerce application in your cluster:
 
 ### 1. Create the Kind cluster
+
+```
 kind create cluster --config kindCluster/kind-cluster.yaml
+```
 
 ### 2. Deploy the ecommerce application
+```
 kubectl apply -f deploy/openshift/ecommerce-app
+```
 
 ### 3. Create the datadog namespace
+```
 kubectl create namespace datadog
+```
 
 ### 4. Add your Datadog API key as a Kubernetes secret
+```
 kubectl create secret generic datadog-secret --from-literal=api-key=<YOUR_DATADOG_API_KEY> -n datadog
+```
 
 ### 5. Install the Datadog Agent using Helm with your custom values
+```
 helm install datadog-agent -f deploy/generic-k8s/helm-datadog/values.yaml datadog/datadog -n datadog
+```
 
 ### 6. (Optional) Re-apply ecommerce app in case of dependency timing
+```
 kubectl apply -f deploy/openshift/ecommerce-app
+```
 
 ### 7. To tear down the environment:
+```
 kind delete cluster --name datadog-lab
+```
 
 To test changes in versions:
 
