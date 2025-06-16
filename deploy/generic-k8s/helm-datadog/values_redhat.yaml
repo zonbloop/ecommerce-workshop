@@ -1,0 +1,62 @@
+clusterAgent:
+  enabled: true
+  rbac:
+    create: true
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  apm:
+    port: 8126
+    portEnabled: true
+    socketEnabled: false
+    useSocketVolume: false
+  #clusterName: kind-datadog-lab
+  collectEvents: true
+  #containerExclude: name:.*
+  #containerExcludeLogs: kube_namespace:.*
+  #containerInclude: kube_namespace:portales
+  #containerIncludeLogs: name:oxxo-cloud-ms-qrpayment name:oxxo-cloud-ms-externalcomm name:oxxo-cloud-security
+
+  #confd:
+  #  logdeperror.yaml: |-
+  #    ad_identifiers:
+  #    - busybox
+      
+  #    logs:
+  #    - source: logsfiltered
+  #      service: jpprueba
+
+  #      log_processing_rules:
+  #        - type: include_at_match
+  #          name: include_error
+  #          pattern: "ERROR"
+
+  #autodiscovery:
+  #  annotations: false
+
+  criSocketPath: /var/run/crio/crio.sock
+  kubeStateMetricsCore:
+    enabled: true
+  kubelet:
+    tlsVerify: false
+  #logLevel: error
+  #logs:
+  #  containerCollectAll: false
+  #  enabled: true
+  #networkMonitoring:
+  #  enabled: true
+  podSecurity:
+    securityContextConstraints:
+      create: true
+  processAgent:
+    enabled: true
+    processCollection: true
+  securityContext:
+    runAsUser: 0
+  serviceMonitoring:
+    enabled: true
+  site: datadoghq.com
+  tags:
+  - env: qa
+  - project: datadog-lab
+registry: gcr.io/datadoghq
+targetSystem: linux

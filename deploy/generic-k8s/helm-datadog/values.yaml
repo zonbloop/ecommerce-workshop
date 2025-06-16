@@ -1,0 +1,89 @@
+orchestratorExplorer:
+  enabled: true
+clusterAgent:
+  enabled: true
+  rbac:
+    create: true
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  apm:
+    portEnabled: true
+    socketEnabled: true    
+
+  databaseMonitoring:
+    enabled: true
+    dbmInstanceSamplesEnabled: true
+    dbmQuerySamplesEnabled: true
+    dbmExplainEnabled: true
+
+  confd:
+    postgres.yaml: |-
+      init_config:
+      instances:
+        - host: db.default.svc.cluster.local
+          port: 5432
+          username: datadog
+          password: dummypassword123.
+          dbm: true
+          tags:
+            - service:postgres
+            - env:qa
+
+  clusterName: datadog-lab
+  collectEvents: true
+  containerCollectAll: true
+  #containerExclude: name:.*
+  #containerExcludeLogs: kube_namespace:.*
+  #containerInclude: kube_namespace:.*
+  #containerIncludeLogs: name:oxxo-cloud-ms-qrpayment name:oxxo-cloud-ms-externalcomm name:oxxo-cloud-security
+
+  #confd:
+  #  logdeperror.yaml: |-
+  #    ad_identifiers:
+  #    - busybox
+      
+  #    logs:
+  #    - source: logsfiltered
+  #      service: jpprueba
+
+  #      log_processing_rules:
+  #        - type: include_at_match
+  #          name: include_error
+  #          pattern: "ERROR"
+
+  #autodiscovery:
+  #  annotations: false
+
+  criSocketPath: /var/run/crio/crio.sock
+  kubeStateMetricsCore:
+    enabled: true
+  kubelet:
+    tlsVerify: false
+  logs:
+    containerCollectAll: true
+    enabled: true
+  #networkMonitoring:
+  #  enabled: true
+  podSecurity:
+    securityContextConstraints:
+      create: true
+  processAgent:
+    enabled: true
+    processCollection: true
+  securityContext:
+    runAsUser: 0
+  serviceMonitoring:
+    enabled: true
+  site: datadoghq.com
+  tags:
+  - env: qa
+  - project: datadog-lab
+  env:
+    - name: DD_HOSTNAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+  orchestratorExplorer:
+    enabled: true
+registry: gcr.io/datadoghq
+targetSystem: linux

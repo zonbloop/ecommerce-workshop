@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+data:
+  init.sql: |
+    ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';
+---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
@@ -63,7 +71,7 @@ spec:
         app: ecommerce
     spec:
       containers:
-      - image: postgres:11-alpine
+      - image: postgres:14-alpine
         name: postgres
         securityContext:
           privileged: true 
@@ -83,11 +91,18 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgresdb 
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d
       serviceAccountName: postgres
       volumes:
       - name: postgresdb
         persistentVolumeClaim:
             claimName: task-pvc-volume
+      - name: init-sql
+        configMap:
+          name: postgres-init
+
+    
 ---
 apiVersion: v1
 kind: Service

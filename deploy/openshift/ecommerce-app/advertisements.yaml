@@ -20,10 +20,12 @@ spec:
         app: ecommerce
     spec:
       containers:
-      - image: ddtraining/advertisements-service:latest
-        name: advertisements 
-        command: ["ddtrace-run"]
-        args: ["flask", "run", "--port=5002", "--host=0.0.0.0"]
+      - name: advertisements
+        image: ddtraining/advertisements-service:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - pip install gunicorn &&
+            ddtrace-run gunicorn --bind 0.0.0.0:5002 ads:app
         env:
           - name: FLASK_APP
             value: "ads.py"
@@ -40,7 +42,7 @@ spec:
             value: "db"
           - name: DATADOG_SERVICE_NAME
             value: "advertisements-service"
-          - name: DD_AGENT_HOST 
+          - name: DD_AGENT_HOST
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
@@ -51,7 +53,7 @@ spec:
           - name: DD_PROFILING_ENABLED
             value: "true"
         ports:
-        - containerPort: 5002
+          - containerPort: 5002
         resources: {}
 ---
 apiVersion: v1
