@@ -25,3 +25,4 @@ store-frontend/src/store-frontend-broken-instrumented
 # Vim swp files
 *.swp
 
+.env
