@@ -16,7 +16,6 @@ __pycache__
 kube_config_server.yaml
 
 # HELM
-helm-values.yaml
 
 # Frontend version
 store-frontend/src/store-frontend-instrumented-fixed
