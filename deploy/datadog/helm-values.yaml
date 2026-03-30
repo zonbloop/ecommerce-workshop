@@ -25,8 +25,8 @@ datadog:
     enabled: true
 
   # Enable this block to get all logs from the pods/containers
-  # logs:
-  #   enabled: true
+  logs:
+    enabled: true
   #   containerCollectAll: true
 
   # Enable this block for the Kubernetes Beta metrics
