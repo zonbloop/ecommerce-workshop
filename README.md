@@ -174,6 +174,8 @@ To enable this scenario using Kubernetes:
 
 ### 1. Create the Kind cluster
 
+Considerar instalar kind y kubectl antes de estos comandos:
+
 ```
 kind create cluster --config kindCluster/kind-cluster.yaml
 ```
